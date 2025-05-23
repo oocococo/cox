@@ -1,0 +1,16 @@
+[project]
+name = "cox"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+  "aiofiles>=24.1.0",
+  "litellm>=1.70.4",
+  "mcp[cli]>=1.9.1",
+  "pathspec>=0.12.1",
+  "pocketflow>=0.0.2",
+  "tree-sitter>=0.24.0",
+]
+[project.scripts]
+cox-mcp = "cox.cox_mcp:main"

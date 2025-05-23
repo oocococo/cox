@@ -1,9 +1,9 @@
 import yaml
 from pocketflow import AsyncNode  # Changed Node to AsyncNode
-from prompts.answer import ANSWER_WRITER
+from copx.prompts.answer import ANSWER_WRITER
 
-from tools import extract_tool_calls, TOOL_NAME_LIST, invoke_tool
-from utils import LLMClient
+from copx.tools import extract_tool_calls, TOOL_NAME_LIST, invoke_tool
+from copx.utils import LLMClient
 import asyncio
 
 

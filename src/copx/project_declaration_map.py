@@ -6,8 +6,9 @@ import asyncio
 import aiofiles
 import aiofiles.os
 from datetime import datetime
-from symbal_extractor.symbol_extractor import extract_symbols_from_file
-from utils import iter_project_files
+
+from copx.symbal_extractor.symbol_extractor import extract_symbols_from_file
+from copx.utils import iter_project_files
 
 #####################
 # 1. Git管理模块

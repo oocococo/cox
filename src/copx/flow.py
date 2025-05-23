@@ -3,10 +3,10 @@ from typing import Dict, List
 from pocketflow import AsyncFlow
 import asyncio
 
-import prompts.prompt as pm
-from project_tree import get_directory_tree_for_llm
-from nodes import CodeRetriver, AnswerFormulator
-from utils import LLMClient
+import copx.prompts.prompt as pm
+from copx.project_tree import get_directory_tree_for_llm
+from copx.nodes import CodeRetriver, AnswerFormulator
+from copx.utils import LLMClient
 
 sys_prompt = pm.ROLE_2 + pm.Workflow + pm.Tools2
 

@@ -1,6 +1,6 @@
 [project]
-name = "cox"
-version = "0.1.0"
+name = "copx"
+version = "0.1.1"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
@@ -13,4 +13,4 @@ dependencies = [
   "tree-sitter>=0.24.0",
 ]
 [project.scripts]
-cox-mcp = "cox.cox_mcp:main"
+copx-mcp = "copx.copx_mcp:main"

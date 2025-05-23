@@ -1,6 +1,6 @@
 from .use_tools import TOOL_FUNC_MAP, TOOL_NAME_LIST
 from typing import Dict, List, Any, Awaitable # Added Any for declaration_map type hint
-from symbal_extractor.symbol_extractor import extract_symbols_from_file # Assuming this can be awaited or is already async
+from copx.symbal_extractor.symbol_extractor import extract_symbols_from_file # Assuming this can be awaited or is already async
 import asyncio
 
 async def view_file_declaration_map(declaration_map: Dict[str, List[Dict[str, Any]]], file_path: str) -> Any:

@@ -2,9 +2,9 @@ from mcp.server.fastmcp import FastMCP
 import os # Added import for os module
 from pocketflow import Flow
 from pydantic import BaseModel
-from project_declaration_map import update_project_declaration_map
-from flow import run_agent
-from utils import LLMClient  # Add LLMClient import
+from copx.project_declaration_map import update_project_declaration_map
+from copx.flow import run_agent
+from copx.utils import LLMClient  # Add LLMClient import
 
 _git_path = os.environ.get("COX_DATA_PATH")
 _model = os.environ.get("COX_MODEL")

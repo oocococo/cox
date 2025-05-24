@@ -1,7 +1,6 @@
 import os
 from typing import Dict, List
 from pocketflow import AsyncFlow
-import asyncio
 
 import copx.prompts.prompt as pm
 from copx.project_tree import get_directory_tree_for_llm
@@ -21,7 +20,7 @@ async def create_agent_flow():
 
     retriever - "answer" >> answer
 
-    # Create and return the flow, starting with the DecideAction node
+    # Create and return the flow, starting with the Retriever node
     return AsyncFlow(start=retriever)
 
 
@@ -43,10 +42,10 @@ async def run_agent(
         "project_path": project_path,
         "query": query,
         "messages": init_messages,
-        "llm_client": llm_client,  # Add llm_client to shared dictionary
-        "declaration_map": declaration_map,  # Add declaration_map to shared dictionary
+        "llm_client": llm_client,  
+        "declaration_map": declaration_map,  
     }
     await flow.run_async(
         shared
-    )  # Changed to run_async and removed asyncio.run as run_agent is now async
+    )  
     return shared

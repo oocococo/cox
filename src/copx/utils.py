@@ -2,7 +2,6 @@ import os
 from pathspec import PathSpec
 from pathspec.patterns.gitwildmatch import GitWildMatchPattern
 import litellm
-import asyncio
 
 
 class LLMClient:
@@ -10,6 +9,8 @@ class LLMClient:
         self.model_id = model_id
         self.base_url = base_url
         self.api_key = api_key
+        self.total_input_tokens = 0
+        self.total_output_tokens = 0
 
     async def call_llm(self, messages):
         # print(f"Sending messages to LLM: {messages}")
@@ -21,7 +22,19 @@ class LLMClient:
         )
         response_content = response.choices[0].message.content
         # print(f"Received response from LLM: {response_content}")
+
+        # 统计 token 数量
+        if response.usage:
+            self.total_input_tokens += response.usage.prompt_tokens
+            self.total_output_tokens += response.usage.completion_tokens
+        
         return response_content
+
+    def get_token_usage(self):
+        return {
+            "total_input_tokens": self.total_input_tokens,
+            "total_output_tokens": self.total_output_tokens,
+        }
 
 
 def iter_project_files(

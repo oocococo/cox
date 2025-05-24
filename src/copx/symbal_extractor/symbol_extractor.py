@@ -34,14 +34,41 @@ async def load_language_config(file_extension, config_dir=DEFAULT_CONFIG_DIR):
         raise ConfigurationError(f"Error loading config {config_file}: {e}")
 
 
-async def get_tree_sitter_language(lang_module_name):
+async def get_tree_sitter_language(lang_module_name, lang_config=None):
     """
     Loads the tree-sitter Language object for the given language asynchronously.
     Assumes tree-sitter bindings (e.g., tree_sitter_go) are pip installed.
+    Uses lang_config to find an optional 'language_accessor_name'.
     """
+    if lang_config is None:
+        lang_config = {}
+
     try:
         module = await asyncio.to_thread(importlib.import_module, lang_module_name)
-        return await asyncio.to_thread(Language, module.language())
+        accessor_name = lang_config.get("language_accessor_name", "language")
+        
+        if not hasattr(module, accessor_name):
+            raise TreeSitterLanguageNotFoundError(
+                f"Language accessor '{accessor_name}' not found in module '{lang_module_name}'."
+            )
+            
+        language_attribute = getattr(module, accessor_name)
+        
+        if callable(language_attribute):
+            # If the accessor points to a callable function (e.g., module.language()),
+            # call it to get the underlying language pointer and construct the Language object.
+            return await asyncio.to_thread(Language, language_attribute())
+        elif isinstance(language_attribute, Language):
+            # If the accessor points directly to an already constructed Language object instance.
+            return language_attribute
+        else:
+            # If the accessor is neither a callable returning a pointer, nor a Language instance.
+            raise TreeSitterLanguageNotFoundError(
+                f"Language accessor '{accessor_name}' in module '{lang_module_name}' "
+                f"is not a callable function returning a language pointer, nor an instance of tree_sitter.Language. "
+                f"Found type: {type(language_attribute).__name__}."
+            )
+
     except ImportError:
         raise TreeSitterLanguageNotFoundError(
             f"Tree-sitter language module '{lang_module_name}' not found. "
@@ -239,7 +266,7 @@ async def extract_symbols_from_file(filepath, config_dir=DEFAULT_CONFIG_DIR):
         if not ts_lang_module_name:
             raise ConfigurationError("'tree_sitter_module' not specified in config.")
 
-        TS_LANGUAGE = await get_tree_sitter_language(ts_lang_module_name)
+        TS_LANGUAGE = await get_tree_sitter_language(ts_lang_module_name, lang_config)
 
         async with aiofiles.open(filepath, "rb") as f:
             code_bytes = await f.read()

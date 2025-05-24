@@ -2,10 +2,10 @@ from mcp.server.fastmcp import FastMCP
 import os 
 from copx.copx_fastapi import query,CodeQuery
 
-_git_path = os.environ.get("COX_DATA_PATH")
-_model = os.environ.get("COX_MODEL")
-_api_key = os.environ.get("COX_API_KEY")
-_base_url = os.environ.get("COX_BASE_URL")
+_git_path = os.environ.get("COPX_DATA_PATH")
+_model = os.environ.get("COPX_MODEL")
+_api_key = os.environ.get("COPX_API_KEY")
+_base_url = os.environ.get("COPX_BASE_URL")
 
 mcp = FastMCP("CodeExpert", dependencies=["pocketflow","pydantic","tree_sitter","aiofiles","tree_sitter_go","pathspec"])
 

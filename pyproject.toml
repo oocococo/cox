@@ -6,6 +6,7 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
   "aiofiles>=24.1.0",
+  "fastapi[standard]>=0.115.12",
   "litellm>=1.70.4",
   "mcp[cli]>=1.9.1",
   "pathspec>=0.12.1",
